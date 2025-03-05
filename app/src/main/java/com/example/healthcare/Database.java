@@ -41,7 +41,8 @@ public class Database extends SQLiteOpenHelper {
 
     public boolean login(String username, String password) {
         SQLiteDatabase db = getReadableDatabase();
-        @SuppressLint("Recycle") Cursor c = db.rawQuery("select * from users where username = ? and password = ?", new String[]{username, password});
-        return c.moveToFirst();
+        try (Cursor c = db.rawQuery("select * from users where username = ? and password = ?", new String[]{username, password})) {
+            return c.moveToFirst();
+        }
     }
 }
